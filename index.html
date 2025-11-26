@@ -450,19 +450,68 @@
         }
 
         // ZERO MULTIPLIER VETO
+        // ZERO MULTIPLIER VETO WITH DE-LINKING FLOW (US 19/240,581 CLAIM 9)
         function triggerVeto() {
             const body = document.body;
             body.classList.add('glitch-active');
+
+            // Generate receipt hash for revocation event
+            const epoch = Math.floor(Date.now() / 1000);
+            const receiptData = 'VETO_EVENT_' + epoch + '_USER_CONSENT_REVOKED';
+            const hash = btoa(receiptData).substring(0, 16);
 
             // Audio Alert (Simulated via Log)
             log('!!! EMERGENCY OVERRIDE INITIATED !!!', 'error');
             log('!!! ZERO-MULTIPLIER VETO ENGAGED !!!', 'error');
             log('!!! US 63/920,993 ENFORCED !!!', 'error');
+            log('', 'entry');
+            log('Generating revocation receipt: ' + hash + '...', 'warn');
+
+            // Simulate Oracle Daemon Detection
+            setTimeout(() => {
+                log('', 'entry');
+                log('⚡ Oracle-triggered: viral threshold met → ZKP verified → de-link fired', 'system');
+                log('', 'entry');
+
+                // Simulate /api/orphan call
+                log('POST /api/orphan {hash: "' + hash + '"}', 'system');
+                
+                setTimeout(() => {
+                    log('← 200 OK: {"status": "de-linked", "data": "intact"}', 'success');
+                    log('', 'entry');
+                    
+                    // Add revocation event to chain log
+                    log('[CHAIN EVENT] REVOKE | epoch=' + epoch + ' | hash=' + hash + ' | hybrid-sig=ED25519:' + btoa(String(epoch)).substring(0,8) + '...', 'system');
+                    log('', 'entry');
+
+                    // Show popup confirmation - Patent Claim 9
+                    const popup = document.createElement('div');
+                    popup.style.position = 'fixed';
+                    popup.style.top = '50%';
+                    popup.style.left = '50%';
+                    popup.style.transform = 'translate(-50%, -50%)';
+                    popup.style.background = '#1a0000';
+                    popup.style.border = '2px solid #ff0000';
+                    popup.style.padding = '40px';
+                    popup.style.zIndex = '1000';
+                    popup.style.boxShadow = '0 0 50px rgba(255, 0, 0, 0.8)';
+                    popup.style.maxWidth = '600px';
+                    popup.style.fontFamily = 'Share Tech Mono, monospace';
+                    popup.innerHTML = '<div style="color: #ff0000; font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center;">⚠️ CONSENT REVOKED</div><div style="color: #00ff00; font-size: 16px; margin-bottom: 30px; line-height: 1.6;"><strong>POINTER DE-LINKED</strong><br><strong>DATA INTACT</strong><br><br>Per <span style="color: #ffff00;">US 19/240,581 Claim 9</span>:<br>"...orphaning said pointer while preserving the underlying data object in storage..."</div><div style="text-align: center;"><button onclick="this.parentElement.parentElement.remove()" style="background: #ff0000; color: #000; padding: 10px 30px; border: none; cursor: pointer; font-weight: bold; font-family: \'Share Tech Mono\', monospace;">ACKNOWLEDGE</button></div>';
+                    document.body.appendChild(popup);
+
+                    log('✓ Consent revoked: pointer de-linked, data intact', 'success');
+                    log('✓ Patent US 19/240,581 Claim 9 enforced', 'success');
+
+                }, 800);
+
+            }, 600);
 
             // Crash the Score
             updateTrust(0);
 
             setTimeout(() => {
+                log('', 'entry');
                 log('SYSTEM HALTED. TRUST SCORE: 0.00%', 'error');
                 log('ALL OPERATIONS CEASED.', 'error');
 
@@ -482,8 +531,9 @@
                     log('System Reset Required.', 'warn');
                 }, 2000);
 
-            }, 1000);
+            }, 2500);
         }
+
 
         // Init Animation
         setTimeout(() => { updateTrust(100); }, 1000);
