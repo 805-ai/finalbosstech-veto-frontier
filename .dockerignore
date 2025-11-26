@@ -1,0 +1,28 @@
+# Rust
+target/
+Cargo.lock
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Docs
+*.md
+!README.md
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Database
+database/
+
+# Frontend
+index.html
+index.html.backup
+.vercel/

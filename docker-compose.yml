@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: veto-postgres
+    environment:
+      POSTGRES_USER: veto_app
+      POSTGRES_PASSWORD: changeme_production
+      POSTGRES_DB: veto_frontier
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U veto_app -d veto_frontier"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Rust Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: veto-backend
+    environment:
+      DATABASE_URL: postgresql://veto_app:changeme_production@postgres:5432/veto_frontier
+      HOST: 0.0.0.0
+      PORT: 8888
+      DEFAULT_ORG_ID: 00000000-0000-0000-0000-000000000001
+      CORS_ALLOWED_ORIGINS: "*"
+      RUST_LOG: info
+    ports:
+      - "8888:8888"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
+    driver: local

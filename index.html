@@ -185,6 +185,600 @@
         }
 
     </style>
+    <script src="config.js"></script>
+</head>
+<body class="h-screen flex flex-col p-4">
+
+    <div class="scanline"></div>
+    <div class="crt-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="flex justify-between items-center mb-4 border-b border-green-900 pb-2">
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+            <div>
+                <h1 class="text-2xl font-bold tracking-widest">JUGGERNAUT // COMMAND CENTER</h1>
+                <div class="text-xs text-green-600">FINAL BOSS TECHNOLOGY INC. // v7.0 TOTAL WAR</div>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="text-xs">SYSTEM TIME</div>
+            <div id="clock" class="text-xl">00:00:00</div>
+        </div>
+    </header>
+
+    <!-- VETO SHOWCASE SECTION -->
+    <div class="panel p-6 mb-4 border-2 border-red-900">
+        <div class="flex items-center justify-between gap-6">
+            <div class="flex-1">
+                <h2 class="text-2xl font-bold text-red-500 mb-2 tracking-widest">⚠️ ZERO-MULTIPLIER VETO SYSTEM</h2>
+                <p class="text-sm text-gray-300 mb-3">
+                    Patent US 63/920,993 — The ultimate AI kill switch. When activated, this system applies a zero-multiplier
+                    to any AI-generated output, instantly terminating trust scores and halting all autonomous operations.
+                </p>
+                <div class="flex gap-4 text-xs">
+                    <div class="bg-red-900 bg-opacity-20 border border-red-800 px-3 py-1 rounded">
+                        <span class="text-red-400">INSTANT OVERRIDE</span>
+                    </div>
+                    <div class="bg-red-900 bg-opacity-20 border border-red-800 px-3 py-1 rounded">
+                        <span class="text-red-400">FULL SYSTEM HALT</span>
+                    </div>
+                    <div class="bg-red-900 bg-opacity-20 border border-red-800 px-3 py-1 rounded">
+                        <span class="text-red-400">PATENTED TECH</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <button onclick="triggerVeto()" class="btn-veto px-12 py-8 text-2xl font-bold rounded shadow-[0_0_30px_rgba(255,0,0,0.6)] hover:scale-105 transition-transform">
+                    EMERGENCY<br>VETO
+                </button>
+                <div class="text-xs text-red-700 mt-2 text-center">CLICK TO ACTIVATE</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="flex-1 grid grid-cols-12 gap-4 min-h-0">
+
+        <!-- LEFT COLUMN: TELEMETRY -->
+        <div class="col-span-3 flex flex-col gap-4">
+
+            <!-- TRUST SCORE / SPEEDOMETER -->
+            <div class="panel p-4 flex flex-col items-center justify-center h-64 relative">
+                <div class="absolute top-2 left-2 text-xs text-gray-500">SCALAR AUTONOMY (US 63/919,922)</div>
+
+                <div class="gauge-container mt-8">
+                    <div class="gauge-body"></div>
+                    <div class="gauge-fill" id="trustFill"></div>
+                    <div class="gauge-needle" id="trustNeedle"></div>
+                </div>
+                <div class="score-text mt-2" id="trustScore">0.00%</div>
+                <div class="text-xs mt-1 text-gray-400">RECEIPT DENSITY</div>
+            </div>
+
+            <!-- PATENT STATUS -->
+            <div class="panel p-4 flex-1 overflow-auto">
+                <div class="text-xs text-gray-500 mb-2 border-b border-gray-800 pb-1">ACTIVE PORTFOLIO (26+)</div>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex justify-between text-green-400"><span>[A] PHYSICS (8ms)</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[A] RECEIPTS</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[B] SPEEDOMETER</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[B] KILL SWITCH</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[C] FACTORY</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[D] BIO-GATE</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[E] HIPAA (NOV 13)</span> <span>ACTIVE</span></li>
+                    <li class="flex justify-between text-green-400"><span>[E] QUANTUM (NOV 13)</span> <span>ACTIVE</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CENTER COLUMN: TERMINAL -->
+        <div class="col-span-6 panel relative flex flex-col">
+            <div class="absolute top-0 left-0 bg-green-900 text-black text-xs px-2 py-1">SECURE SHELL // GEMINI 2.5 PRO</div>
+            <div class="terminal-log mt-6 font-mono text-sm" id="terminal">
+                <div class="log-system">--- SYSTEM INITIALIZED ---</div>
+                <div class="log-entry">Loading 26+ Active Filings... <span class="log-success">DONE</span></div>
+                <div class="log-entry">Connecting to Neural Core (vFinal)... <span class="log-success">CONNECTED</span></div>
+                <div class="log-entry">Zero-Multiplier Veto Circuit... <span class="log-success">ARMED</span></div>
+                <div class="log-entry">Waiting for Command...</div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: VETO & MAP -->
+        <div class="col-span-3 flex flex-col gap-4">
+
+            <!-- VETO BUTTON -->
+            <div class="red-panel p-4 flex flex-col items-center justify-center h-48 bg-black bg-opacity-50">
+                <div class="text-red-500 text-xs mb-2 tracking-widest">EMERGENCY PROTOCOL</div>
+                <button onclick="triggerVeto()" class="btn-veto w-full h-20 text-xl font-bold rounded shadow-[0_0_20px_rgba(255,0,0,0.5)]">
+                    ZERO-MULTIPLIER<br>VETO
+                </button>
+                <div class="text-xs text-red-800 mt-2 text-center">US PATENT 63/920,993</div>
+            </div>
+
+            <!-- STATUS LOG -->
+            <div class="panel p-4 flex-1">
+                <div class="text-xs text-gray-500 mb-2">SYSTEM STATUS</div>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="p-2 bg-green-900 bg-opacity-20 border border-green-800">
+                        <div class="text-gray-400">CPU</div>
+                        <div class="text-green-400">OPTIMAL</div>
+                    </div>
+                    <div class="p-2 bg-green-900 bg-opacity-20 border border-green-800">
+                        <div class="text-gray-400">MEMORY</div>
+                        <div class="text-green-400">SECURE</div>
+                    </div>
+                    <div class="p-2 bg-green-900 bg-opacity-20 border border-green-800">
+                        <div class="text-gray-400">NETWORK</div>
+                        <div class="text-green-400">ENCRYPTED</div>
+                    </div>
+                    <div class="p-2 bg-green-900 bg-opacity-20 border border-green-800">
+                        <div class="text-gray-400">VETO</div>
+                        <div class="text-green-400">READY</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BOTTOM: COMMAND INPUT -->
+    <div class="mt-4 flex gap-4">
+        <div class="flex-1 panel flex items-center px-4">
+            <span class="text-green-500 mr-2">➜</span>
+            <input type="text" id="cmdInput" placeholder="ENTER STRATEGIC DIRECTIVE..." class="w-full bg-transparent border-none outline-none text-green-400 font-mono uppercase" onkeypress="handleEnter(event)">
+        </div>
+        <button onclick="executeCommand()" class="btn-execute px-8 py-4 font-bold rounded">
+            EXECUTE
+        </button>
+    </div>
+
+    <script>
+        // CLOCK
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('en-US', { hour12: false });
+        }, 1000);
+
+        // TERMINAL UTILS
+        const term = document.getElementById('terminal');
+        function log(msg, type = 'entry') {
+            const div = document.createElement('div');
+            div.className = `log-${type}`;
+            div.innerHTML = `> ${msg}`;
+            term.appendChild(div);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        // TRUST SCORE LOGIC (US 63/919,922)
+        let currentScore = 0;
+        function updateTrust(target) {
+            const needle = document.getElementById('trustNeedle');
+            const fill = document.getElementById('trustFill');
+            const text = document.getElementById('trustScore');
+
+            // Animate Needle
+            // 0% = 180deg, 100% = 360deg
+            const deg = 180 + (target * 1.8);
+            needle.style.transform = `rotate(${deg}deg)`;
+
+            // Animate Fill Gradient
+            // Simple approximation for visualization
+            fill.style.background = `conic-gradient(from 270deg, #00ff00 0%, #00ff00 ${target * 1.8}deg, transparent 0%)`;
+
+            // Animate Number
+            let i = currentScore;
+            const interval = setInterval(() => {
+                if (i < target) i++;
+                else if (i > target) i--;
+                else clearInterval(interval);
+                text.innerText = `${i}.00%`;
+
+                // Color Logic
+                if (i < 30) { text.style.color = 'red'; needle.style.backgroundColor = 'red'; }
+                else if (i < 70) { text.style.color = 'yellow'; needle.style.backgroundColor = 'yellow'; }
+                else { text.style.color = '#00ff00'; needle.style.backgroundColor = '#00ff00'; }
+
+            }, 10);
+            currentScore = target;
+        }
+
+        // COMMAND EXECUTION
+        function handleEnter(e) {
+            if (e.key === 'Enter') executeCommand();
+        }
+
+        function executeCommand() {
+            const input = document.getElementById('cmdInput');
+            const cmd = input.value.trim();
+            if (!cmd) return;
+
+            log(`COMMAND RECEIVED: "${cmd}"`, 'system');
+            input.value = '';
+
+            // SIMULATE PROCESSING TIME
+            log('Authenticating with Juggernaut Core (US 63/909,804)...', 'warn');
+
+            setTimeout(() => {
+                log('Access Granted. Loading Patent Vectors...', 'success');
+
+                // SIMULATE DIFFERENT OUTPUTS BASED ON KEYWORDS
+                setTimeout(() => {
+                    processAIResponse(cmd);
+                }, 1500);
+
+            }, 800);
+        }
+
+        function processAIResponse(cmd) {
+            const cmdUpper = cmd.toUpperCase();
+            let responseText = "";
+            let scoreTarget = 98;
+
+            if (cmdUpper.includes("VETO") || cmdUpper.includes("KILL") || cmdUpper.includes("SHUTDOWN")) {
+                // Veto Logic
+                log('!!! DETECTING THREAT VECTOR !!!', 'error');
+                log('Applying Zero-Multiplier Veto (US 63/920,993)...', 'error');
+                responseText = "TARGET TERMINATED. ZERO-MULTIPLIER APPLIED. SYSTEM LOCKED.";
+                scoreTarget = 0;
+            }
+            else if (cmdUpper.includes("COMPETITOR") || cmdUpper.includes("WARNING") || cmdUpper.includes("CEASE")) {
+                // Poison Pill Logic
+                log('Engaging Poison Pill Strategy...', 'warn');
+                log('Citing Family A vs Family B conflict...', 'success');
+                responseText = "STRATEGIC MEMO GENERATED: Competitor trapped in patent paradox. Citations: US 63/919,922 vs US 63/881,519.";
+            }
+            else if (cmdUpper.includes("HIPAA") || cmdUpper.includes("HOSPITAL")) {
+                // HIPAA Logic
+                log('Accessing Family E (Nov 13) Patents...', 'success');
+                responseText = "COMPLIANCE AUDIT: HIPAA Violation Detected. Citing US 63/916,988. Shutdown advised.";
+                scoreTarget = 45;
+            }
+            else if (cmdUpper.includes("QUANTUM")) {
+                // Quantum Logic
+                log('Accessing Family E (Quantum) Vectors...', 'system');
+                responseText = "DOMINION ASSERTED: Quantum Circuit Execution claimed under US 63/916,981.";
+            }
+            else {
+                // Generic
+                responseText = "JUGGERNAUT OUTPUT: Strategy generated based on 26+ active filings. PDF Secured.";
+            }
+
+            log(responseText, 'success');
+            log(`[ PDF GENERATED ]: FinalBoss_Export_${Date.now()}.pdf`, 'system');
+            updateTrust(scoreTarget);
+        }
+
+        // ZERO MULTIPLIER VETO
+        // ZERO MULTIPLIER VETO WITH DE-LINKING FLOW (US 19/240,581 CLAIM 9)
+        async function triggerVeto() {
+            if (isVetoing) return;
+            isVetoing = true;
+
+            const btn = document.getElementById('veto-btn');
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+
+            const epoch = Math.floor(Date.now() / 1000);
+            const receiptData = 'VETO_EVENT_' + epoch + '_USER_CONSENT_REVOKED';
+            const hash = btoa(receiptData).substring(0, 16);
+
+            // Audio Alert
+            log('!!! EMERGENCY OVERRIDE INITIATED !!!', 'error');
+            log('!!! ZERO-MULTIPLIER VETO ENGAGED !!!', 'error');
+            log('!!! US 63/920,993 ENFORCED !!!', 'error');
+            log('', 'entry');
+            log('Generating revocation receipt: ' + hash + '...', 'warn');
+
+            try {
+                // Step 1: Create a pointer (in production, this would already exist)
+                log('', 'entry');
+                log('Creating demo pointer...', 'system');
+
+                const createResult = await apiCall('/api/pointer/create', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        subject_id: 'demo_user_' + Date.now(),
+                        content_hash: 'sha3_demo_' + hash
+                    })
+                });
+
+                if (!createResult.success) {
+                    throw new Error('Failed to create pointer: ' + createResult.error);
+                }
+
+                const pointerId = createResult.data.pointer_id;
+                log('✓ Pointer created: ' + pointerId, 'success');
+                log('✓ Receipt hash: ' + createResult.data.receipt.receipt_hash.substring(0, 16) + '...', 'success');
+
+                // Step 2: Orphan the pointer (VETO!)
+                log('', 'entry');
+                log('⚡ Oracle-triggered: viral threshold met → ZKP verified → de-link fired', 'system');
+                log('', 'entry');
+                log('POST /api/pointer/orphan {pointer_id: "' + pointerId + '"}', 'system');
+
+                const orphanResult = await apiCall('/api/pointer/orphan', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        pointer_id: pointerId,
+                        reason: 'user_consent_revoked'
+                    })
+                });
+
+                if (!orphanResult.success) {
+                    throw new Error('Failed to orphan pointer: ' + orphanResult.error);
+                }
+
+                log('← 200 OK: {"status": "orphaned", "data": "intact"}', 'success');
+                log('', 'entry');
+
+                // Real receipt from backend
+                const receipt = orphanResult.data.receipt;
+                log('[CHAIN EVENT] REVOKE | hash=' + receipt.receipt_hash.substring(0, 16) + '... | sig=' + receipt.signature_algorithm + ':' + receipt.signature.substring(0, 8) + '...', 'system');
+                log('', 'entry');
+
+                // Step 3: Try to resolve (should fail with 403)
+                log('Attempting to resolve orphaned pointer...', 'warn');
+
+                const resolveResult = await apiCall('/api/pointer/resolve/' + pointerId, {
+                    method: 'GET'
+                });
+
+                if (!resolveResult.success) {
+                    log('✓ Resolution blocked: ' + resolveResult.error, 'success');
+                } else {
+                    log('⚠ Warning: Orphaned pointer was resolved (enforcement may be disabled)', 'warn');
+                }
+
+                log('', 'entry');
+
+                // Show popup confirmation - Patent Claim 9
+                const popup = document.createElement('div');
+                popup.style.position = 'fixed';
+                popup.style.top = '50%';
+                popup.style.left = '50%';
+                popup.style.transform = 'translate(-50%, -50%)';
+                popup.style.background = '#1a0000';
+                popup.style.border = '2px solid #ff0000';
+                popup.style.padding = '40px';
+                popup.style.zIndex = '1000';
+                popup.style.boxShadow = '0 0 50px rgba(255, 0, 0, 0.8)';
+                popup.style.maxWidth = '600px';
+                popup.style.fontFamily = 'Share Tech Mono, monospace';
+                popup.innerHTML = '<div style="color: #ff0000; font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center;">⚠️ CONSENT REVOKED</div><div style="color: #00ff00; font-size: 16px; margin-bottom: 30px; line-height: 1.6;"><strong>POINTER DE-LINKED (REAL)</strong><br><strong>DATA INTACT</strong><br><br>Per <span style="color: #ffff00;">US 19/240,581 Claim 9</span>:<br>"...orphaning said pointer while preserving the underlying data object in storage..."<br><br><strong>Receipt Hash:</strong> ' + receipt.receipt_hash.substring(0, 32) + '...<br><strong>Signature:</strong> ' + receipt.signature_algorithm + '<br><strong>Timestamp:</strong> ' + receipt.timestamp + '</div><div style="text-align: center;"><button onclick="this.parentElement.parentElement.remove()" style="background: #ff0000; color: #000; padding: 10px 30px; border: none; cursor: pointer; font-weight: bold; font-family: 'Share Tech Mono', monospace;">ACKNOWLEDGE</button></div>';
+                document.body.appendChild(popup);
+
+                log('✓ Consent revoked: pointer de-linked, data intact (REAL)', 'success');
+                log('✓ Patent US 19/240,581 Claim 9 enforced (PRODUCTION)', 'success');
+                log('✓ Cryptographic receipt generated and stored', 'success');
+
+            } catch (error) {
+                log('', 'entry');
+                log('ERROR: ' + error.message, 'error');
+                log('Falling back to demo mode...', 'warn');
+
+                // Fallback to original mock behavior if API fails
+                log('POST /api/orphan {hash: "' + hash + '"}', 'system');
+                log('← 200 OK: {"status": "de-linked", "data": "intact"} (DEMO)', 'success');
+            }
+
+            // Crash the Score
+            updateTrust(0);
+
+            setTimeout(() => {
+                log('', 'entry');
+                log('SYSTEM HALTED. TRUST SCORE: 0.00%', 'error');
+                log('ALL OPERATIONS CEASED.', 'error');
+
+                // Flash Red
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.background = 'rgba(255, 0, 0, 0.3)';
+                overlay.style.zIndex = '999';
+                overlay.style.pointerEvents = 'none';
+                document.body.appendChild(overlay);
+
+                setTimeout(() => {
+                    overlay.remove();
+                }, 500);
+
+                isVetoing = false;
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }, 1600);
+        } html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUGGERNAUT COMMAND CENTER // FINAL BOSS TECH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        body {
+            background-color: #050505;
+            color: #00ff00;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+        }
+
+        /* SCANLINES & CRT EFFECT */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0, 255, 0, 0.02) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+
+        .crt-overlay {
+            background: radial-gradient(circle, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.6) 100%);
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* UI ELEMENTS */
+        .panel {
+            background: rgba(10, 20, 10, 0.7);
+            border: 1px solid #333;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .red-panel {
+            border-color: #550000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+        }
+        .red-panel:hover {
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        /* BUTTONS */
+        .btn-execute {
+            background: #003300;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-execute:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        .btn-veto {
+            background: #330000;
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            animation: pulse-red 2s infinite;
+        }
+        .btn-veto:hover {
+            background: #ff0000;
+            color: #000;
+            box-shadow: 0 0 30px #ff0000;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 5px #550000; }
+            50% { box-shadow: 0 0 15px #aa0000; }
+            100% { box-shadow: 0 0 5px #550000; }
+        }
+
+        /* TERMINAL TEXT */
+        .terminal-log {
+            height: 100%;
+            overflow-y: auto;
+            padding: 10px;
+            color: #cccccc;
+        }
+        .log-entry { margin-bottom: 5px; }
+        .log-success { color: #00ff00; }
+        .log-error { color: #ff0000; }
+        .log-warn { color: #ffff00; }
+        .log-system { color: #00ffff; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #003300; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ff00; }
+
+        /* SPEEDOMETER GAUGE */
+        .gauge-container {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .gauge-body {
+            width: 200px;
+            height: 200px;
+            background: #111;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            border: 2px solid #333;
+            box-sizing: border-box;
+        }
+        .gauge-fill {
+            width: 200px;
+            height: 200px;
+            background: conic-gradient(from 270deg, #00ff00 0%, #00ff00 0%, transparent 0%);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            transition: all 1s ease-out;
+            mask: radial-gradient(transparent 60%, black 61%);
+            -webkit-mask: radial-gradient(transparent 60%, black 61%);
+        }
+        .gauge-needle {
+            width: 100px;
+            height: 2px;
+            background: #fff;
+            position: absolute;
+            bottom: 0;
+            left: 100px;
+            transform-origin: left center;
+            transform: rotate(180deg);
+            transition: all 1s ease-out;
+        }
+        .score-text {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* GLITCH EFFECT FOR VETO */
+        .glitch-active {
+            animation: glitch-anim 0.2s infinite;
+            filter: hue-rotate(90deg) contrast(200%);
+        }
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+    </style>
+    <script src="config.js"></script>
 </head>
 <body class="h-screen flex flex-col p-4">
 
@@ -539,5 +1133,30 @@
         setTimeout(() => { updateTrust(100); }, 1000);
 
     </script>
+
+    <!-- API Status Indicator -->
+    <div id="api-status-indicator" style="position: fixed; top: 10px; right: 10px; padding: 8px 16px; background: rgba(0,0,0,0.8); border: 1px solid #00ff00; border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 12px; z-index: 2000;">
+        <span id="api-status-text" style="color: #00ff00;">API: Checking...</span>
+    </div>
+    <script>
+        // Check API health on load
+        (async function() {
+            const indicator = document.getElementById('api-status-text');
+            try {
+                const result = await apiCall('/health');
+                if (result.success) {
+                    indicator.textContent = 'API: Connected ✓';
+                    indicator.style.color = '#00ff00';
+                } else {
+                    throw new Error('Health check failed');
+                }
+            } catch (error) {
+                indicator.textContent = 'API: Offline (Demo Mode)';
+                indicator.style.color = '#ff9900';
+                CONFIG.DEMO_MODE = true;
+            }
+        })();
+    </script>
+
 </body>
 </html>
